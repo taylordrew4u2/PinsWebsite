@@ -50,7 +50,20 @@ export default async function SubmissionArticlePage({
                 <li>Your availability</li>
               </ul>
 
-              <p>We review all submissions and will get back to you as soon as possible!</p>
+              <p>
+                Send your submission to{" "}
+                <a
+                  href="mailto:admin@pinsandneedlescomedy.com"
+                  className="text-blue-600 hover:underline"
+                >
+                  admin@pinsandneedlescomedy.com
+                </a>{" "}
+                or use our{" "}
+                <a href="/pages/contact" className="text-blue-600 hover:underline">
+                  contact page
+                </a>
+                . We review all submissions and will get back to you as soon as possible!
+              </p>
             </>
           ) : (
             <>

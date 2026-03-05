@@ -1,3 +1,5 @@
+import ShareBar from "@/components/ShareBar";
+
 export default async function NewsArticlePage({
   params,
 }: {
@@ -47,31 +49,7 @@ export default async function NewsArticlePage({
           )}
         </div>
 
-        {/* Share/Copy UI Placeholder */}
-        <div className="mt-12 pt-8 border-t border-gray-200">
-          <h3 className="text-lg font-semibold mb-4">Share this article</h3>
-          <div className="flex space-x-4">
-            <button
-              onClick={() => {
-                if (navigator.clipboard) {
-                  navigator.clipboard.writeText(window.location.href);
-                  alert("Link copied to clipboard!");
-                }
-              }}
-              className="px-4 py-2 bg-gray-100 text-gray-700 rounded hover:bg-gray-200"
-            >
-              Copy Link
-            </button>
-            <a
-              href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(typeof window !== "undefined" ? window.location.href : "")}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-            >
-              Share on Twitter
-            </a>
-          </div>
-        </div>
+        <ShareBar />
       </article>
 
       <div className="mt-12">
