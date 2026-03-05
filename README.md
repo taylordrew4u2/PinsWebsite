@@ -18,7 +18,38 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Environment Variables
+
+Create a `.env.local` file with the following variables:
+
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `ADMIN_SESSION_SECRET` | **Yes** | Secret key for signing JWT admin session tokens (use a long random string) |
+| `ADMIN_PASSWORD` | **Yes** | Admin login password (defaults to `weed` in dev — **must** be set in production) |
+| `DATABASE_URL` or `POSTGRES_URL` | Yes (for DB features) | Vercel Postgres connection string |
+| `BLOB_READ_WRITE_TOKEN` | Yes (for media uploads) | Vercel Blob read/write token |
+
+Example `.env.local`:
+
+```env
+ADMIN_SESSION_SECRET=some-long-random-secret-here
+ADMIN_PASSWORD=your-secure-password
+POSTGRES_URL=postgres://...
+BLOB_READ_WRITE_TOKEN=vercel_blob_rw_...
+```
+
+## Admin Panel
+
+Access the admin panel at `/admin`. You will be redirected to `/admin/login` if not authenticated.
+
+The admin includes:
+- **Settings** — Site name, nav items, social links, SEO defaults, HTML injection
+- **News Posts** — Create, edit, delete, duplicate news articles
+- **Comic Submission Posts** — Manage comic submission content
+- **Pages** — Static page management
+- **Redirects** — URL redirect rules with enable/disable
+- **Contact Submissions** — View, filter, mark spam, export CSV
+- **Media** — Upload files to Vercel Blob
 
 ## Learn More
 
