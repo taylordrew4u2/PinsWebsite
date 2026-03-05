@@ -4,7 +4,13 @@ import { jwtVerify } from "jose";
 const SESSION_COOKIE = "pn_admin_session";
 
 function getSecret(): Uint8Array {
-  const secret = process.env.ADMIN_SESSION_SECRET ?? "dev-secret-change-me-in-production";
+  const secret = process.env.ADMIN_SESSION_SECRET;
+  if (!secret) {
+    if (process.env.NODE_ENV === "production") {
+      throw new Error("ADMIN_SESSION_SECRET env var must be set in production.");
+    }
+    return new TextEncoder().encode("dev-secret-change-me-in-production");
+  }
   return new TextEncoder().encode(secret);
 }
 
