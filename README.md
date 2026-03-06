@@ -4,7 +4,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 - **Framework**: Next.js 16 (App Router)
 - **Language**: TypeScript
-- **Database**: PostgreSQL (Vercel Postgres)
+- **Database**: SQLite (Turso)
 - **ORM**: Drizzle ORM
 - **Styling**: Tailwind CSS 4
 - **Storage**: Vercel Blob (for media uploads)
@@ -62,7 +62,8 @@ Create a `.env.local` file with the following variables:
 | Variable | Required | Description |
 |----------|----------|-------------|
 | `ADMIN_SESSION_SECRET` | **Yes** | Secret key for signing JWT admin session tokens (use a long random string) |
-| `DATABASE_URL` or `POSTGRES_URL` | Yes (for DB features) | Vercel Postgres connection string |
+| `TURSO_DATABASE_URL` | **Yes** | Turso database connection URL (libsql://) |
+| `TURSO_AUTH_TOKEN` | **Yes** | Turso authentication token |
 | `BLOB_READ_WRITE_TOKEN` | Yes (for media uploads) | Vercel Blob read/write token |
 
 **Note:** Admin password is hardcoded to `weed123` in `lib/password.ts` and cannot be changed via environment variables.
@@ -71,13 +72,14 @@ Example `.env.local`:
 
 ```env
 ADMIN_SESSION_SECRET=some-long-random-secret-here
-POSTGRES_URL=postgres://...
+TURSO_DATABASE_URL=libsql://your-database.turso.io
+TURSO_AUTH_TOKEN=eyJhbGciOiJFZERTQS...
 BLOB_READ_WRITE_TOKEN=vercel_blob_rw_...
 ```
 
 ## Database
 
-This project uses **Drizzle ORM** with PostgreSQL (Vercel Postgres).
+This project uses **Drizzle ORM** with **Turso** (SQLite edge database).
 
 ### Schema
 
@@ -106,7 +108,16 @@ npm run db:push
 Drizzle configuration is in `drizzle.config.ts`:
 - Schema: `./db/schema.ts`
 - Migrations: `./db/migrations`
-- Dialect: PostgreSQL
+- Dialect: Turso (SQLite)
+
+### Setting Up Turso
+
+1. Install Turso CLI: `curl -sSfL https://get.tur.so/install.sh | bash`
+2. Sign up: `turso auth signup`
+3. Create database: `turso db create pins-website`
+4. Get URL: `turso db show pins-website --url`
+5. Create token: `turso db tokens create pins-website`
+6. Add credentials to `.env.local`
 
 ## Admin Panel
 
