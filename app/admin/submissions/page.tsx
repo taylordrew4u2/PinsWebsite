@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { db } from "@/db";
 import { contactSubmissions } from "@/db/schema";
-import { desc, eq } from "drizzle-orm";
+import { desc } from "drizzle-orm";
 import { markSpam, deleteSubmission } from "./actions";
 
 async function getSubmissions(spamFilter?: string) {

@@ -26,7 +26,7 @@ export default async function MediaPage() {
               return (
                 <div key={blob.url} className="bg-white rounded-lg shadow overflow-hidden border border-gray-100">
                   {isImage && (
-                    // eslint-disable-next-line @next/next-image/no-img-element
+                    // eslint-disable-next-line @next/next/no-img-element
                     <img src={blob.url} alt={blob.pathname} className="w-full h-32 object-cover" />
                   )}
                   <div className="p-3">

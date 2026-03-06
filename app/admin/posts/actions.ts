@@ -9,7 +9,10 @@ import { redirect } from "next/navigation";
 
 const PostSchema = z.object({
   title: z.string().min(1, "Title is required"),
-  slug: z.string().min(1, "Slug is required").regex(/^[a-z0-9-]+$/, "Slug must be lowercase alphanumeric with hyphens"),
+  slug: z
+    .string()
+    .min(1, "Slug is required")
+    .regex(/^[a-z0-9-]+$/, "Slug must be lowercase alphanumeric with hyphens"),
   excerpt: z.string().optional(),
   bodyMarkdown: z.string().optional(),
   featuredImageUrl: z.string().url().optional().or(z.literal("")),
@@ -106,6 +109,7 @@ export async function duplicatePost(id: number, blogSlug: string) {
     .where(and(eq(posts.id, id), eq(posts.blogSlug, blogSlug)))
     .limit(1);
   if (!original[0]) return;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { id: _id, createdAt: _c, updatedAt: _u, ...rest } = original[0];
   await db.insert(posts).values({
     ...rest,
