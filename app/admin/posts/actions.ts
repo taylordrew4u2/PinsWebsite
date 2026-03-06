@@ -1,8 +1,6 @@
 "use server";
 
 import { db } from "@/db";
-import { posts } from "@/db/schema";
-import { eq, and } from "drizzle-orm";
 import { z } from "zod";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
@@ -36,23 +34,27 @@ export async function createPost(
   }
   const d = parsed.data;
   try {
-    const result = await db
-      .insert(posts)
-      .values({
+    const publishedAt = d.publishedAt ? Math.floor(new Date(d.publishedAt).getTime() / 1000) : null;
+
+    await db.execute(
+      `INSERT INTO posts (blog_slug, slug, title, excerpt, body_markdown, featured_image_url, seo_title, meta_description, status, published_at)
+       VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10)`,
+      [
         blogSlug,
-        slug: d.slug,
-        title: d.title,
-        excerpt: d.excerpt,
-        bodyMarkdown: d.bodyMarkdown,
-        featuredImageUrl: d.featuredImageUrl || null,
-        seoTitle: d.seoTitle,
-        metaDescription: d.metaDescription,
-        status: d.status,
-        publishedAt: d.publishedAt ? new Date(d.publishedAt) : null,
-      })
-      .returning({ id: posts.id });
+        d.slug,
+        d.title,
+        d.excerpt || null,
+        d.bodyMarkdown || null,
+        d.featuredImageUrl || null,
+        d.seoTitle || null,
+        d.metaDescription || null,
+        d.status,
+        publishedAt,
+      ]
+    );
+
     revalidatePath(`/admin/posts${blogSlug === "news" ? "" : "/comic-submission"}`);
-    return { ok: true, id: result[0]?.id };
+    return { ok: true };
   } catch (e) {
     console.error("[admin] createPost", e);
     return { ok: false, error: "Database error." };
@@ -72,21 +74,38 @@ export async function updatePost(
   }
   const d = parsed.data;
   try {
-    await db
-      .update(posts)
-      .set({
-        slug: d.slug,
-        title: d.title,
-        excerpt: d.excerpt,
-        bodyMarkdown: d.bodyMarkdown,
-        featuredImageUrl: d.featuredImageUrl || null,
-        seoTitle: d.seoTitle,
-        metaDescription: d.metaDescription,
-        status: d.status,
-        publishedAt: d.publishedAt ? new Date(d.publishedAt) : null,
-        updatedAt: new Date(),
-      })
-      .where(and(eq(posts.id, id), eq(posts.blogSlug, blogSlug)));
+    const publishedAt = d.publishedAt ? Math.floor(new Date(d.publishedAt).getTime() / 1000) : null;
+    const updatedAt = Math.floor(Date.now() / 1000);
+
+    await db.execute(
+      `UPDATE posts SET 
+        slug = ?1,
+        title = ?2,
+        excerpt = ?3,
+        body_markdown = ?4,
+        featured_image_url = ?5,
+        seo_title = ?6,
+        meta_description = ?7,
+        status = ?8,
+        published_at = ?9,
+        updated_at = ?10
+       WHERE id = ?11 AND blog_slug = ?12`,
+      [
+        d.slug,
+        d.title,
+        d.excerpt || null,
+        d.bodyMarkdown || null,
+        d.featuredImageUrl || null,
+        d.seoTitle || null,
+        d.metaDescription || null,
+        d.status,
+        publishedAt,
+        updatedAt,
+        id,
+        blogSlug,
+      ]
+    );
+
     revalidatePath(`/admin/posts${blogSlug === "news" ? "" : "/comic-submission"}`);
     return { ok: true };
   } catch (e) {
@@ -96,27 +115,39 @@ export async function updatePost(
 }
 
 export async function deletePost(id: number, blogSlug: string) {
-  await db.delete(posts).where(and(eq(posts.id, id), eq(posts.blogSlug, blogSlug)));
+  await db.execute("DELETE FROM posts WHERE id = ?1 AND blog_slug = ?2", [id, blogSlug]);
   const path = blogSlug === "news" ? "/admin/posts" : "/admin/posts/comic-submission";
   revalidatePath(path);
   redirect(path);
 }
 
 export async function duplicatePost(id: number, blogSlug: string) {
-  const original = await db
-    .select()
-    .from(posts)
-    .where(and(eq(posts.id, id), eq(posts.blogSlug, blogSlug)))
-    .limit(1);
-  if (!original[0]) return;
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { id: _id, createdAt: _c, updatedAt: _u, ...rest } = original[0];
-  await db.insert(posts).values({
-    ...rest,
-    slug: `${rest.slug}-copy`,
-    status: "draft",
-    publishedAt: null,
-  });
+  const result = await db.execute("SELECT * FROM posts WHERE id = ?1 AND blog_slug = ?2 LIMIT 1", [
+    id,
+    blogSlug,
+  ]);
+
+  if (!result.rows[0]) return;
+
+  const original = result.rows[0] as any;
+
+  await db.execute(
+    `INSERT INTO posts (blog_slug, slug, title, excerpt, body_markdown, featured_image_url, seo_title, meta_description, status, published_at)
+     VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10)`,
+    [
+      original.blog_slug,
+      `${original.slug}-copy`,
+      original.title,
+      original.excerpt,
+      original.body_markdown,
+      original.featured_image_url,
+      original.seo_title,
+      original.meta_description,
+      "draft",
+      null,
+    ]
+  );
+
   const path = blogSlug === "news" ? "/admin/posts" : "/admin/posts/comic-submission";
   revalidatePath(path);
   redirect(path);

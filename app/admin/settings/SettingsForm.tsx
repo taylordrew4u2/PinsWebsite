@@ -2,10 +2,9 @@
 
 import { useActionState, useState } from "react";
 import { saveSettings, SaveSettingsState } from "./actions";
-import type { siteSettings } from "@/db/schema";
-import type { InferSelectModel } from "drizzle-orm";
+import type { SiteSettings } from "@/db/types";
 
-type Settings = InferSelectModel<typeof siteSettings>;
+type Settings = SiteSettings;
 
 const initialState: SaveSettingsState = { ok: false };
 

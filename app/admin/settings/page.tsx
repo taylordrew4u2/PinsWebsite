@@ -1,11 +1,10 @@
-import { db } from "@/db";
-import { siteSettings } from "@/db/schema";
+import { getSiteSettings } from "@/db/queries";
 import SettingsForm from "./SettingsForm";
 
 async function getSettings() {
   try {
-    const rows = await db.select().from(siteSettings).limit(1);
-    return { data: rows[0] ?? null, error: null };
+    const data = await getSiteSettings();
+    return { data, error: null };
   } catch {
     return { data: null, error: "Database not connected. Configure DATABASE_URL." };
   }
