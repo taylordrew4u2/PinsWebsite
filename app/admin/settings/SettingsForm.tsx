@@ -85,7 +85,7 @@ export default function SettingsForm({ settings }: { settings: Settings | null }
           <select
             name="aboutCanonicalPath"
             defaultValue={settings?.about_canonical_path ?? ""}
-            className="border border-gray-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+            className="border border-gray-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-red-500 focus:outline-none"
           >
             <option value="">— none —</option>
             <option value="/pages/about-us">/pages/about-us</option>
@@ -147,7 +147,7 @@ export default function SettingsForm({ settings }: { settings: Settings | null }
           <button
             type="button"
             onClick={addNavItem}
-            className="text-indigo-600 hover:text-indigo-800 text-sm font-medium"
+            className="text-red-600 hover:text-red-800 text-sm font-medium"
           >
             + Add Nav Item
           </button>
@@ -158,7 +158,7 @@ export default function SettingsForm({ settings }: { settings: Settings | null }
         <button
           type="submit"
           disabled={pending}
-          className="bg-indigo-600 text-white px-6 py-2 rounded font-semibold hover:bg-indigo-700 disabled:opacity-50 transition"
+          className="bg-red-600 text-white px-6 py-2 rounded font-semibold hover:bg-red-700 disabled:opacity-50 transition"
         >
           {pending ? "Saving…" : "Save Settings"}
         </button>
@@ -184,7 +184,7 @@ function Field({ label, name, defaultValue }: { label: string; name: string; def
         type="text"
         name={name}
         defaultValue={defaultValue}
-        className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+        className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-red-500 focus:outline-none"
       />
     </div>
   );
@@ -211,7 +211,7 @@ function TextareaField({
         name={name}
         defaultValue={defaultValue}
         rows={rows}
-        className="w-full border border-gray-300 rounded px-3 py-2 text-sm font-mono focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+        className="w-full border border-gray-300 rounded px-3 py-2 text-sm font-mono focus:ring-2 focus:ring-red-500 focus:outline-none"
       />
     </div>
   );

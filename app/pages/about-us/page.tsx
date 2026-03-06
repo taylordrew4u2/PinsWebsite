@@ -32,13 +32,13 @@ export default function AboutUsPage() {
 
         <ul className="list-disc list-inside text-gray-700 mb-6">
           <li>
-            <a href="/pages/contact" className="text-blue-600 hover:underline">
+            <a href="/pages/contact" className="text-red-600 hover:underline">
               Contact us
             </a>{" "}
             with questions or feedback
           </li>
           <li>
-            <a href="/blogs/comic-submission" className="text-blue-600 hover:underline">
+            <a href="/blogs/comic-submission" className="text-red-600 hover:underline">
               Learn how to perform
             </a>{" "}
             at our shows
@@ -49,7 +49,7 @@ export default function AboutUsPage() {
               href="https://www.instagram.com/pinsandneedlescomedy"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-blue-600 hover:underline"
+              className="text-red-600 hover:underline"
             >
               Instagram
             </a>{" "}
@@ -60,7 +60,7 @@ export default function AboutUsPage() {
               href="https://www.gofundme.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-blue-600 hover:underline"
+              className="text-red-600 hover:underline"
             >
               Support our Fringe show
             </a>
@@ -72,7 +72,7 @@ export default function AboutUsPage() {
             Note: This content also appears at{" "}
             <a
               href="/blogs/news/about-us-pins-needles-comedy"
-              className="text-blue-600 hover:underline"
+              className="text-red-600 hover:underline"
             >
               /blogs/news/about-us-pins-needles-comedy
             </a>{" "}

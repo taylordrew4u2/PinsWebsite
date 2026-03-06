@@ -5,6 +5,96 @@ body {
     sans-serif;
 }
 
+/* Prose styling for rendered markdown with red accent */
+.prose {
+  color: #111827;
+  /* gray-900 */
+  max-width: 65ch;
+}
+
+.prose a {
+  color: #dc2626;
+  /* red-600 */
+  text-decoration: underline;
+}
+
+.prose a:hover {
+  color: #991b1b;
+  /* red-700 */
+}
+
+.prose strong {
+  color: #000000;
+  font-weight: 600;
+}
+
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4,
+.prose h5,
+.prose h6 {
+  color: #000000;
+  font-weight: 700;
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+}
+
+.prose h1 {
+  font-size: 2.25em;
+  line-height: 1.2;
+}
+
+.prose h2 {
+  font-size: 1.875em;
+  line-height: 1.3;
+}
+
+.prose h3 {
+  font-size: 1.5em;
+  line-height: 1.4;
+}
+
+.prose code {
+  color: #991b1b;
+  /* red-700 */
+  background-color: #fef2f2;
+  /* red-50 */
+  padding: 0.125em 0.25em;
+  border-radius: 0.25em;
+  font-size: 0.875em;
+}
+
+.prose pre {
+  background-color: #000000;
+  color: #ffffff;
+  padding: 1em;
+  border-radius: 0.5em;
+  overflow-x: auto;
+}
+
+.prose blockquote {
+  border-left: 4px solid #dc2626;
+  /* red-600 */
+  padding-left: 1em;
+  margin-left: 0;
+  font-style: italic;
+  color: #4b5563;
+  /* gray-600 */
+}
+
+.prose ul,
+.prose ol {
+  padding-left: 1.5em;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+.prose li {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
 /* Tailwind screen-reader only utility */
 .sr-only {
   position: absolute;

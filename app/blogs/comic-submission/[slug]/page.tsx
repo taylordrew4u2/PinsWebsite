@@ -54,12 +54,12 @@ export default async function SubmissionArticlePage({
                 Send your submission to{" "}
                 <a
                   href="mailto:admin@pinsandneedlescomedy.com"
-                  className="text-blue-600 hover:underline"
+                  className="text-red-600 hover:underline"
                 >
                   admin@pinsandneedlescomedy.com
                 </a>{" "}
                 or use our{" "}
-                <a href="/pages/contact" className="text-blue-600 hover:underline">
+                <a href="/pages/contact" className="text-red-600 hover:underline">
                   contact page
                 </a>
                 . We review all submissions and will get back to you as soon as possible!
@@ -80,7 +80,7 @@ export default async function SubmissionArticlePage({
       </article>
 
       <div className="mt-12">
-        <a href="/blogs/comic-submission" className="text-blue-600 hover:underline">
+        <a href="/blogs/comic-submission" className="text-red-600 hover:underline">
           ← Back to Submissions
         </a>
       </div>

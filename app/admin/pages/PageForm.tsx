@@ -10,7 +10,7 @@ interface Props {
 }
 
 const initialState: PageFormState = { ok: false };
-const inputCls = "w-full border border-gray-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none";
+const inputCls = "w-full border border-gray-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-red-500 focus:outline-none";
 
 export default function PageForm({ page, formAction }: Props) {
   const [state, action, pending] = useActionState(formAction, initialState);
@@ -80,7 +80,7 @@ export default function PageForm({ page, formAction }: Props) {
 
       <div className="flex gap-3">
         <button type="submit" disabled={pending}
-          className="bg-indigo-600 text-white px-5 py-2 rounded font-semibold hover:bg-indigo-700 disabled:opacity-50 transition">
+          className="bg-red-600 text-white px-5 py-2 rounded font-semibold hover:bg-red-700 disabled:opacity-50 transition">
           {pending ? "Saving…" : page ? "Update Page" : "Create Page"}
         </button>
         <a href="/admin/pages" className="px-5 py-2 rounded border border-gray-300 text-gray-700 hover:bg-gray-50 transition">

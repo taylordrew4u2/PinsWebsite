@@ -1,4 +1,35 @@
-export default function HomePage() {
+import { getSiteSettings } from "@/db/queries";
+import { markdownToHtml } from "@/lib/markdown";
+
+async function getHomeContent() {
+  try {
+    const settings = await getSiteSettings();
+    if (settings?.home_body_markdown) {
+      const html = await markdownToHtml(settings.home_body_markdown);
+      return { html, settings };
+    }
+    return { html: null, settings };
+  } catch {
+    return { html: null, settings: null };
+  }
+}
+
+export default async function HomePage() {
+  const { html, settings } = await getHomeContent();
+
+  // If custom content exists, use it
+  if (html) {
+    return (
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div 
+          className="prose prose-lg max-w-none"
+          dangerouslySetInnerHTML={{ __html: html }}
+        />
+      </div>
+    );
+  }
+
+  // Default homepage content
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="text-center mb-12">
@@ -12,10 +43,10 @@ export default function HomePage() {
         {/* Prominent tickets/RSVP link */}
         <div className="mb-8">
           <a
-            href="https://partiful.com"
+            href={settings?.primary_ticket_link || "https://partiful.com"}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-block bg-blue-600 text-white text-lg font-semibold px-8 py-4 rounded-lg hover:bg-blue-700 transition"
+            className="inline-block bg-red-600 text-white text-lg font-semibold px-8 py-4 rounded-lg hover:bg-red-700 transition"
           >
             Get Tickets / RSVP
           </a>
@@ -28,7 +59,7 @@ export default function HomePage() {
           <p className="text-gray-600 mb-4">
             Stay up to date with our latest shows, announcements, and comedy scene updates.
           </p>
-          <a href="/blogs/news" className="text-blue-600 hover:underline font-semibold">
+          <a href="/blogs/news" className="text-red-600 hover:underline font-semibold">
             Read the blog →
           </a>
         </div>
@@ -40,7 +71,7 @@ export default function HomePage() {
           </p>
           <a
             href="/blogs/comic-submission"
-            className="text-blue-600 hover:underline font-semibold"
+            className="text-red-600 hover:underline font-semibold"
           >
             Submission info →
           </a>
@@ -49,10 +80,10 @@ export default function HomePage() {
 
       <div className="mt-12 text-center">
         <a
-          href="https://www.gofundme.com"
+          href={settings?.fundraising_link || "https://www.gofundme.com"}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-blue-600 hover:underline text-lg font-semibold"
+          className="text-red-600 hover:underline text-lg font-semibold"
         >
           Support our Fringe show fundraiser →
         </a>

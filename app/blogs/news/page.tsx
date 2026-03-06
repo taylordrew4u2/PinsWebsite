@@ -14,7 +14,7 @@ export default async function NewsIndexPage({
       <div className="space-y-8">
         <article className="border-b border-gray-200 pb-8">
           <h2 className="text-2xl font-semibold mb-2">
-            <a href="/blogs/news/welcome-to-pins-needles" className="hover:text-blue-600">
+            <a href="/blogs/news/welcome-to-pins-needles" className="hover:text-red-600">
               Welcome to Pins and Needles Comedy
             </a>
           </h2>
@@ -23,7 +23,7 @@ export default async function NewsIndexPage({
           </p>
           <a
             href="/blogs/news/welcome-to-pins-needles"
-            className="text-blue-600 hover:underline"
+            className="text-red-600 hover:underline"
           >
             Read more →
           </a>
@@ -33,7 +33,7 @@ export default async function NewsIndexPage({
           <h2 className="text-2xl font-semibold mb-2">
             <a
               href="/blogs/news/about-us-pins-needles-comedy"
-              className="hover:text-blue-600"
+              className="hover:text-red-600"
             >
               About Us - Pins and Needles Comedy
             </a>
@@ -43,7 +43,7 @@ export default async function NewsIndexPage({
           </p>
           <a
             href="/blogs/news/about-us-pins-needles-comedy"
-            className="text-blue-600 hover:underline"
+            className="text-red-600 hover:underline"
           >
             Read more →
           </a>

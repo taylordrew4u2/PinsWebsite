@@ -3,7 +3,7 @@
 import { useActionState } from "react";
 import type { RedirectFormState } from "./actions";
 
-const inputCls = "border border-gray-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none";
+const inputCls = "border border-gray-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-red-500 focus:outline-none";
 
 export default function RedirectForm({
   formAction,
@@ -43,7 +43,7 @@ export default function RedirectForm({
           </label>
         </div>
         <button type="submit" disabled={pending}
-          className="bg-indigo-600 text-white px-4 py-2 rounded text-sm font-semibold hover:bg-indigo-700 disabled:opacity-50 transition">
+          className="bg-red-600 text-white px-4 py-2 rounded text-sm font-semibold hover:bg-red-700 disabled:opacity-50 transition">
           {pending ? "Adding…" : "Add Redirect"}
         </button>
       </div>

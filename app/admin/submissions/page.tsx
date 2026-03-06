@@ -71,7 +71,7 @@ export default async function SubmissionsPage({
                 </td>
                 <td className="px-4 py-3">
                   <div className="flex gap-2 justify-end">
-                    <Link href={`/admin/submissions/${s.id}`} className="text-indigo-600 hover:underline">View</Link>
+                    <Link href={`/admin/submissions/${s.id}`} className="text-red-600 hover:underline">View</Link>
                     <form action={markSpam.bind(null, s.id, !s.is_spam)}>
                       <button type="submit" className="text-gray-600 hover:underline">
                         {s.is_spam ? "Not Spam" : "Mark Spam"}

@@ -33,7 +33,7 @@ export default function MediaUploadForm() {
         <button
           type="submit"
           disabled={pending}
-          className="bg-indigo-600 text-white px-4 py-2 rounded text-sm font-semibold hover:bg-indigo-700 disabled:opacity-50 transition"
+          className="bg-red-600 text-white px-4 py-2 rounded text-sm font-semibold hover:bg-red-700 disabled:opacity-50 transition"
         >
           {pending ? "Uploading…" : "Upload"}
         </button>

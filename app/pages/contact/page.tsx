@@ -49,7 +49,7 @@ export default function ContactPage() {
             required
             value={formState.name}
             onChange={handleChange}
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500"
             placeholder="Your name"
           />
         </div>
@@ -65,7 +65,7 @@ export default function ContactPage() {
             required
             value={formState.email}
             onChange={handleChange}
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500"
             placeholder="your.email@example.com"
           />
         </div>
@@ -80,7 +80,7 @@ export default function ContactPage() {
             name="phone"
             value={formState.phone}
             onChange={handleChange}
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500"
             placeholder="(555) 123-4567"
           />
         </div>
@@ -96,7 +96,7 @@ export default function ContactPage() {
             value={formState.comment}
             onChange={handleChange}
             rows={6}
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500"
             placeholder="Your message..."
           />
         </div>
@@ -104,7 +104,7 @@ export default function ContactPage() {
         <div>
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white font-semibold py-3 px-6 rounded-md hover:bg-blue-700 transition"
+            className="w-full bg-red-600 text-white font-semibold py-3 px-6 rounded-md hover:bg-red-700 transition"
           >
             Send Message
           </button>

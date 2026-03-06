@@ -54,7 +54,7 @@ export default async function AdminDashboard() {
           { label: "Redirects", value: stats.redirectsCount },
         ].map((stat) => (
           <div key={stat.label} className="bg-white rounded-lg shadow p-4 text-center">
-            <div className="text-3xl font-bold text-indigo-600">{stat.value}</div>
+            <div className="text-3xl font-bold text-red-600">{stat.value}</div>
             <div className="text-sm text-gray-600 mt-1">{stat.label}</div>
           </div>
         ))}
@@ -68,7 +68,7 @@ export default async function AdminDashboard() {
             href={s.href}
             className="bg-white rounded-lg shadow p-5 hover:shadow-md transition group"
           >
-            <div className="font-semibold text-gray-900 group-hover:text-indigo-600 transition mb-1">
+            <div className="font-semibold text-gray-900 group-hover:text-red-600 transition mb-1">
               {s.label}
             </div>
             <div className="text-sm text-gray-500">{s.description}</div>

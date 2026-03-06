@@ -93,7 +93,7 @@ export default function PostForm({ post, formAction, backHref, blogLabel }: Prop
         <button
           type="submit"
           disabled={pending}
-          className="bg-indigo-600 text-white px-5 py-2 rounded font-semibold hover:bg-indigo-700 disabled:opacity-50 transition"
+          className="bg-red-600 text-white px-5 py-2 rounded font-semibold hover:bg-red-700 disabled:opacity-50 transition"
         >
           {pending ? "Saving…" : post ? "Update Post" : `Create ${blogLabel} Post`}
         </button>
@@ -105,4 +105,4 @@ export default function PostForm({ post, formAction, backHref, blogLabel }: Prop
   );
 }
 
-const inputCls = "w-full border border-gray-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none";
+const inputCls = "w-full border border-gray-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-red-500 focus:outline-none";

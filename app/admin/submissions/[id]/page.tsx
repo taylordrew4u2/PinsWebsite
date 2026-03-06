@@ -29,7 +29,7 @@ export default async function SubmissionDetailPage({
   return (
     <div className="max-w-2xl">
       <div className="flex items-center gap-4 mb-6">
-        <Link href="/admin/submissions" className="text-indigo-600 hover:underline text-sm">← Back</Link>
+        <Link href="/admin/submissions" className="text-red-600 hover:underline text-sm">← Back</Link>
         <h1 className="text-2xl font-bold text-gray-900">Submission #{submission.id}</h1>
         {submission.is_spam && (
           <span className="inline-flex px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-red-700">Spam</span>

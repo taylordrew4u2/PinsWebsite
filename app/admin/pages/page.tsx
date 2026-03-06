@@ -19,7 +19,7 @@ export default async function PagesListPage() {
     <div>
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold text-gray-900">Static Pages</h1>
-        <Link href="/admin/pages/new" className="bg-indigo-600 text-white px-4 py-2 rounded text-sm font-semibold hover:bg-indigo-700 transition">
+        <Link href="/admin/pages/new" className="bg-red-600 text-white px-4 py-2 rounded text-sm font-semibold hover:bg-red-700 transition">
           + New Page
         </Link>
       </div>
@@ -54,7 +54,7 @@ export default async function PagesListPage() {
                 </td>
                 <td className="px-4 py-3">
                   <div className="flex gap-2 justify-end">
-                    <Link href={`/admin/pages/${page.id}`} className="text-indigo-600 hover:underline">Edit</Link>
+                    <Link href={`/admin/pages/${page.id}`} className="text-red-600 hover:underline">Edit</Link>
                     <form action={deletePage.bind(null, page.id)}
                       onSubmit={(e) => { if (!confirm("Delete this page?")) e.preventDefault(); }}>
                       <button type="submit" className="text-red-600 hover:underline">Delete</button>

@@ -53,7 +53,7 @@ export default async function NewsArticlePage({
       </article>
 
       <div className="mt-12">
-        <a href="/blogs/news" className="text-blue-600 hover:underline">
+        <a href="/blogs/news" className="text-red-600 hover:underline">
           ← Back to News
         </a>
       </div>

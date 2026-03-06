@@ -33,7 +33,7 @@ export default async function PostsListPage({ blogSlug, label, basePath }: Props
         <h1 className="text-2xl font-bold text-gray-900">{label} Posts</h1>
         <Link
           href={`${basePath}/new`}
-          className="bg-indigo-600 text-white px-4 py-2 rounded text-sm font-semibold hover:bg-indigo-700 transition"
+          className="bg-red-600 text-white px-4 py-2 rounded text-sm font-semibold hover:bg-red-700 transition"
         >
           + New Post
         </Link>
@@ -46,7 +46,7 @@ export default async function PostsListPage({ blogSlug, label, basePath }: Props
       )}
 
       {data.length === 0 && !error && (
-        <p className="text-gray-500 text-sm">No posts yet. <Link href={`${basePath}/new`} className="text-indigo-600 underline">Create one.</Link></p>
+        <p className="text-gray-500 text-sm">No posts yet. <Link href={`${basePath}/new`} className="text-red-600 underline">Create one.</Link></p>
       )}
 
       <div className="bg-white rounded-lg shadow overflow-hidden">
@@ -77,7 +77,7 @@ export default async function PostsListPage({ blogSlug, label, basePath }: Props
                 </td>
                 <td className="px-4 py-3">
                   <div className="flex gap-2 justify-end">
-                    <Link href={`${basePath}/${post.id}`} className="text-indigo-600 hover:underline">Edit</Link>
+                    <Link href={`${basePath}/${post.id}`} className="text-red-600 hover:underline">Edit</Link>
                     <form action={duplicatePost.bind(null, post.id, blogSlug)}>
                       <button type="submit" className="text-gray-600 hover:underline">Duplicate</button>
                     </form>
