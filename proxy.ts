@@ -55,7 +55,6 @@ export async function proxy(req: NextRequest) {
   try {
     // Lazy import to avoid issues when DB not configured
     const { db } = await import("./db");
-    const { Redirect } = await import("./db/types");
 
     const result = await db.execute({
       sql: "SELECT * FROM redirects WHERE from_path = ?1 AND enabled = 1 LIMIT 1",
@@ -68,7 +67,7 @@ export async function proxy(req: NextRequest) {
       const dest = req.nextUrl.clone();
       dest.pathname = rule.to_path;
       dest.search = "";
-      return NextResponse.redirect(dest, { status: rule.statusCode });
+      return NextResponse.redirect(dest, { status: rule.status_code });
     }
   } catch {
     // DB not configured or query failed - continue normally

@@ -1,6 +1,9 @@
 #!/usr/bin/env node
 // Database migration script - runs schema.sql against Turso database
 
+// Load environment variables from .env.local
+require('dotenv').config({ path: '.env.local' });
+
 const { createClient } = require('@libsql/client');
 const fs = require('fs');
 const path = require('path');
@@ -23,7 +26,16 @@ async function migrate() {
   console.log('🔄 Running migrations...');
   
   try {
-    await client.execute(sql);
+    // Split SQL into individual statements and execute them one by one
+    const statements = sql
+      .split(';')
+      .map(s => s.trim())
+      .filter(s => s.length > 0);
+
+    for (const statement of statements) {
+      await client.execute(statement);
+    }
+    
     console.log('✅ Migration completed successfully!');
   } catch (error) {
     console.error('❌ Migration failed:', error);
