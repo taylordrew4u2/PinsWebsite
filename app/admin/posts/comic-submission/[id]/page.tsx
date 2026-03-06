@@ -1,6 +1,5 @@
 import { db } from "@/db";
-import { posts } from "@/db/schema";
-import { and, eq } from "drizzle-orm";
+import type { Post } from "@/db/types";
 import { notFound } from "next/navigation";
 import PostForm from "../../PostForm";
 import { updatePost } from "../../actions";
@@ -14,14 +13,13 @@ export default async function EditComicPostPage({
   const postId = Number(id);
   if (isNaN(postId)) notFound();
 
-  let post = null;
+  let post: Post | null = null;
   try {
-    const rows = await db
-      .select()
-      .from(posts)
-      .where(and(eq(posts.id, postId), eq(posts.blogSlug, "comic-submission")))
-      .limit(1);
-    post = rows[0] ?? null;
+    const result = await db.execute({
+      sql: "SELECT * FROM posts WHERE id = ? AND blog_slug = ? LIMIT 1",
+      args: [postId, "comic-submission"],
+    });
+    post = result.rows[0] ? (result.rows[0] as unknown as Post) : null;
   } catch {
     // DB not available
   }

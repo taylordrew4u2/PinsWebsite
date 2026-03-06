@@ -2,10 +2,7 @@
 
 import { useActionState } from "react";
 import type { PostFormState } from "./actions";
-import type { posts } from "@/db/schema";
-import type { InferSelectModel } from "drizzle-orm";
-
-type Post = InferSelectModel<typeof posts>;
+import type { Post } from "@/db/types";
 
 interface Props {
   post?: Post | null;
@@ -51,12 +48,12 @@ export default function PostForm({ post, formAction, backHref, blogLabel }: Prop
 
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">Body (Markdown)</label>
-        <textarea name="bodyMarkdown" defaultValue={post?.bodyMarkdown ?? ""} rows={14} className={`${inputCls} font-mono text-sm`} />
+        <textarea name="bodyMarkdown" defaultValue={post?.body_markdown ?? ""} rows={14} className={`${inputCls} font-mono text-sm`} />
       </div>
 
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">Featured Image URL</label>
-        <input name="featuredImageUrl" type="url" defaultValue={post?.featuredImageUrl ?? ""} className={inputCls} />
+        <input name="featuredImageUrl" type="url" defaultValue={post?.featured_image_url ?? ""} className={inputCls} />
       </div>
 
       <fieldset className="border border-gray-200 rounded-lg p-4">
@@ -64,11 +61,11 @@ export default function PostForm({ post, formAction, backHref, blogLabel }: Prop
         <div className="space-y-3 mt-2">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">SEO Title</label>
-            <input name="seoTitle" defaultValue={post?.seoTitle ?? ""} className={inputCls} />
+            <input name="seoTitle" defaultValue={post?.seo_title ?? ""} className={inputCls} />
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Meta Description</label>
-            <textarea name="metaDescription" defaultValue={post?.metaDescription ?? ""} rows={2} className={inputCls} />
+            <textarea name="metaDescription" defaultValue={post?.meta_description ?? ""} rows={2} className={inputCls} />
           </div>
         </div>
       </fieldset>
@@ -86,7 +83,7 @@ export default function PostForm({ post, formAction, backHref, blogLabel }: Prop
           <input
             name="publishedAt"
             type="datetime-local"
-            defaultValue={post?.publishedAt ? new Date(post.publishedAt).toISOString().slice(0, 16) : ""}
+            defaultValue={post?.published_at ? new Date(post.published_at * 1000).toISOString().slice(0, 16) : ""}
             className={inputCls}
           />
         </div>

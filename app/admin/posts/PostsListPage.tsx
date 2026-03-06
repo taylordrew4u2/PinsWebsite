@@ -1,13 +1,16 @@
 import Link from "next/link";
 import { db } from "@/db";
-import { posts } from "@/db/schema";
-import { eq, desc } from "drizzle-orm";
+import type { Post } from "@/db/types";
 import { deletePost, duplicatePost } from "./actions";
 
 async function getPosts(blogSlug: string) {
   try {
+    const result = await db.execute({
+      sql: "SELECT * FROM posts WHERE blog_slug = ? ORDER BY created_at DESC",
+      args: [blogSlug],
+    });
     return {
-      data: await db.select().from(posts).where(eq(posts.blogSlug, blogSlug)).orderBy(desc(posts.createdAt)),
+      data: result.rows as unknown as Post[],
       error: null,
     };
   } catch {
@@ -70,7 +73,7 @@ export default async function PostsListPage({ blogSlug, label, basePath }: Props
                   </span>
                 </td>
                 <td className="px-4 py-3 text-gray-600">
-                  {post.publishedAt ? new Date(post.publishedAt).toLocaleDateString() : "—"}
+                  {post.published_at ? new Date(post.published_at * 1000).toLocaleDateString() : "—"}
                 </td>
                 <td className="px-4 py-3">
                   <div className="flex gap-2 justify-end">

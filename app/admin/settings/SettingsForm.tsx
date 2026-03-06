@@ -17,9 +17,13 @@ interface NavItem {
 
 export default function SettingsForm({ settings }: { settings: Settings | null }) {
   const [state, formAction, pending] = useActionState(saveSettings, initialState);
-  const [navItems, setNavItems] = useState<NavItem[]>(
-    (settings?.navItems as NavItem[]) ?? []
-  );
+  
+  // Parse nav_items from JSON string
+  const parsedNavItems = settings?.nav_items 
+    ? (JSON.parse(settings.nav_items) as NavItem[]) 
+    : [];
+  
+  const [navItems, setNavItems] = useState<NavItem[]>(parsedNavItems);
 
   function addNavItem() {
     setNavItems([...navItems, { label: "", href: "" }]);
@@ -35,7 +39,10 @@ export default function SettingsForm({ settings }: { settings: Settings | null }
     setNavItems(updated);
   }
 
-  const socialLinks = settings?.socialLinks as { instagram?: string } | null;
+  // Parse social_links from JSON string
+  const socialLinks = settings?.social_links 
+    ? (JSON.parse(settings.social_links) as { instagram?: string }) 
+    : null;
 
   return (
     <form action={formAction} className="space-y-8">
@@ -54,21 +61,21 @@ export default function SettingsForm({ settings }: { settings: Settings | null }
 
       {/* SEO Defaults */}
       <Section title="SEO Defaults">
-        <Field label="Site Name" name="siteName" defaultValue={settings?.siteName ?? ""} />
-        <Field label="Default Meta Description" name="defaultMetaDescription" defaultValue={settings?.defaultMetaDescription ?? ""} />
-        <Field label="Default OG Image URL" name="defaultOgImageUrl" defaultValue={settings?.defaultOgImageUrl ?? ""} />
+        <Field label="Site Name" name="siteName" defaultValue={settings?.site_name ?? ""} />
+        <Field label="Default Meta Description" name="defaultMetaDescription" defaultValue={settings?.default_meta_description ?? ""} />
+        <Field label="Default OG Image URL" name="defaultOgImageUrl" defaultValue={settings?.default_og_image_url ?? ""} />
       </Section>
 
       {/* Links */}
       <Section title="Links">
-        <Field label="Primary Ticket Link (Partiful)" name="primaryTicketLink" defaultValue={settings?.primaryTicketLink ?? ""} />
-        <Field label="Fundraising Link (GoFundMe)" name="fundraisingLink" defaultValue={settings?.fundraisingLink ?? ""} />
+        <Field label="Primary Ticket Link (Partiful)" name="primaryTicketLink" defaultValue={settings?.primary_ticket_link ?? ""} />
+        <Field label="Fundraising Link (GoFundMe)" name="fundraisingLink" defaultValue={settings?.fundraising_link ?? ""} />
         <Field label="Instagram URL" name="instagramUrl" defaultValue={socialLinks?.instagram ?? ""} />
       </Section>
 
       {/* Content */}
       <Section title="Home Page Content">
-        <TextareaField label="Home Body Markdown" name="homeBodyMarkdown" defaultValue={settings?.homeBodyMarkdown ?? ""} rows={8} />
+        <TextareaField label="Home Body Markdown" name="homeBodyMarkdown" defaultValue={settings?.home_body_markdown ?? ""} rows={8} />
       </Section>
 
       {/* About Canonical */}
@@ -77,7 +84,7 @@ export default function SettingsForm({ settings }: { settings: Settings | null }
           <label className="block text-sm font-medium text-gray-700 mb-1">About Canonical Path</label>
           <select
             name="aboutCanonicalPath"
-            defaultValue={settings?.aboutCanonicalPath ?? ""}
+            defaultValue={settings?.about_canonical_path ?? ""}
             className="border border-gray-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none"
           >
             <option value="">— none —</option>
@@ -89,8 +96,8 @@ export default function SettingsForm({ settings }: { settings: Settings | null }
 
       {/* Inject HTML */}
       <Section title="Custom HTML Injection">
-        <TextareaField label="&lt;head&gt; Inject HTML" name="headInjectHtml" defaultValue={settings?.headInjectHtml ?? ""} rows={4} />
-        <TextareaField label="Body End Inject HTML" name="bodyEndInjectHtml" defaultValue={settings?.bodyEndInjectHtml ?? ""} rows={4} />
+        <TextareaField label="&lt;head&gt; Inject HTML" name="headInjectHtml" defaultValue={settings?.head_inject_html ?? ""} rows={4} />
+        <TextareaField label="Body End Inject HTML" name="bodyEndInjectHtml" defaultValue={settings?.body_end_inject_html ?? ""} rows={4} />
       </Section>
 
       {/* Nav Items */}

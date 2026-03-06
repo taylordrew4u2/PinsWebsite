@@ -2,10 +2,7 @@
 
 import { useActionState } from "react";
 import type { PageFormState } from "./actions";
-import type { pages } from "@/db/schema";
-import type { InferSelectModel } from "drizzle-orm";
-
-type Page = InferSelectModel<typeof pages>;
+import type { Page } from "@/db/types";
 
 interface Props {
   page?: Page | null;
@@ -45,7 +42,7 @@ export default function PageForm({ page, formAction }: Props) {
 
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">Body (Markdown)</label>
-        <textarea name="bodyMarkdown" defaultValue={page?.bodyMarkdown ?? ""} rows={14} className={`${inputCls} font-mono text-sm`} />
+        <textarea name="bodyMarkdown" defaultValue={page?.body_markdown ?? ""} rows={14} className={`${inputCls} font-mono text-sm`} />
       </div>
 
       <fieldset className="border border-gray-200 rounded-lg p-4">
@@ -53,11 +50,11 @@ export default function PageForm({ page, formAction }: Props) {
         <div className="space-y-3 mt-2">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">SEO Title</label>
-            <input name="seoTitle" defaultValue={page?.seoTitle ?? ""} className={inputCls} />
+            <input name="seoTitle" defaultValue={page?.seo_title ?? ""} className={inputCls} />
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Meta Description</label>
-            <textarea name="metaDescription" defaultValue={page?.metaDescription ?? ""} rows={2} className={inputCls} />
+            <textarea name="metaDescription" defaultValue={page?.meta_description ?? ""} rows={2} className={inputCls} />
           </div>
         </div>
       </fieldset>
@@ -75,7 +72,7 @@ export default function PageForm({ page, formAction }: Props) {
           <input
             name="publishedAt"
             type="datetime-local"
-            defaultValue={page?.publishedAt ? new Date(page.publishedAt).toISOString().slice(0, 16) : ""}
+            defaultValue={page?.published_at ? new Date(page.published_at * 1000).toISOString().slice(0, 16) : ""}
             className={inputCls}
           />
         </div>

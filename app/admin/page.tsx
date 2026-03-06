@@ -1,17 +1,21 @@
 import Link from "next/link";
 import { db } from "@/db";
-import { posts, pages, contactSubmissions, redirects } from "@/db/schema";
-import { count } from "drizzle-orm";
 
 async function getStats() {
   try {
-    const [postsCount, pagesCount, submissionsCount, redirectsCount] = await Promise.all([
-      db.select({ count: count() }).from(posts).then((r) => r[0]?.count ?? 0),
-      db.select({ count: count() }).from(pages).then((r) => r[0]?.count ?? 0),
-      db.select({ count: count() }).from(contactSubmissions).then((r) => r[0]?.count ?? 0),
-      db.select({ count: count() }).from(redirects).then((r) => r[0]?.count ?? 0),
+    const [postsResult, pagesResult, submissionsResult, redirectsResult] = await Promise.all([
+      db.execute("SELECT COUNT(*) as count FROM posts"),
+      db.execute("SELECT COUNT(*) as count FROM pages"),
+      db.execute("SELECT COUNT(*) as count FROM contact_submissions"),
+      db.execute("SELECT COUNT(*) as count FROM redirects"),
     ]);
-    return { postsCount, pagesCount, submissionsCount, redirectsCount, error: null };
+    return {
+      postsCount: (postsResult.rows[0] as any)?.count ?? 0,
+      pagesCount: (pagesResult.rows[0] as any)?.count ?? 0,
+      submissionsCount: (submissionsResult.rows[0] as any)?.count ?? 0,
+      redirectsCount: (redirectsResult.rows[0] as any)?.count ?? 0,
+      error: null,
+    };
   } catch {
     return { postsCount: 0, pagesCount: 0, submissionsCount: 0, redirectsCount: 0, error: "Database not connected" };
   }

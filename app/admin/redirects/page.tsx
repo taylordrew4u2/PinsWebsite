@@ -1,12 +1,12 @@
 import { db } from "@/db";
-import { redirects } from "@/db/schema";
-import { desc } from "drizzle-orm";
+import type { Redirect } from "@/db/types";
 import { createRedirect, deleteRedirect, toggleRedirect } from "./actions";
 import RedirectForm from "./RedirectForm";
 
 async function getRedirects() {
   try {
-    return { data: await db.select().from(redirects).orderBy(desc(redirects.createdAt)), error: null };
+    const result = await db.execute("SELECT * FROM redirects ORDER BY created_at DESC");
+    return { data: result.rows as unknown as Redirect[], error: null };
   } catch {
     return { data: [], error: "Database not connected." };
   }
@@ -42,9 +42,9 @@ export default async function RedirectsPage() {
           <tbody className="divide-y divide-gray-100">
             {data.map((r) => (
               <tr key={r.id} className="hover:bg-gray-50">
-                <td className="px-4 py-3 font-mono text-gray-900">{r.fromPath}</td>
-                <td className="px-4 py-3 font-mono text-gray-600">{r.toPath}</td>
-                <td className="px-4 py-3 text-gray-600">{r.statusCode}</td>
+                <td className="px-4 py-3 font-mono text-gray-900">{r.from_path}</td>
+                <td className="px-4 py-3 font-mono text-gray-600">{r.to_path}</td>
+                <td className="px-4 py-3 text-gray-600">{r.status_code}</td>
                 <td className="px-4 py-3">
                   <form action={toggleRedirect.bind(null, r.id, !r.enabled)}>
                     <button type="submit" className={`inline-flex px-2 py-0.5 rounded text-xs font-medium cursor-pointer ${

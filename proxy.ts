@@ -55,19 +55,18 @@ export async function proxy(req: NextRequest) {
   try {
     // Lazy import to avoid issues when DB not configured
     const { db } = await import("./db");
-    const { redirects } = await import("./db/schema");
-    const { eq, and } = await import("drizzle-orm");
+    const { Redirect } = await import("./db/types");
 
-    const rule = await db
-      .select()
-      .from(redirects)
-      .where(and(eq(redirects.fromPath, pathname), eq(redirects.enabled, true)))
-      .limit(1)
-      .then((r) => r[0]);
+    const result = await db.execute({
+      sql: "SELECT * FROM redirects WHERE from_path = ?1 AND enabled = 1 LIMIT 1",
+      args: [pathname],
+    });
+
+    const rule = result.rows[0] as any;
 
     if (rule) {
       const dest = req.nextUrl.clone();
-      dest.pathname = rule.toPath;
+      dest.pathname = rule.to_path;
       dest.search = "";
       return NextResponse.redirect(dest, { status: rule.statusCode });
     }

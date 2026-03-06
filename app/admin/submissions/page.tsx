@@ -1,18 +1,17 @@
 import Link from "next/link";
 import { db } from "@/db";
-import { contactSubmissions } from "@/db/schema";
-import { desc } from "drizzle-orm";
+import type { ContactSubmission } from "@/db/types";
 import { markSpam, deleteSubmission } from "./actions";
 
 async function getSubmissions(spamFilter?: string) {
   try {
-    const query = db.select().from(contactSubmissions).orderBy(desc(contactSubmissions.createdAt));
-    const data = await query;
+    const result = await db.execute("SELECT * FROM contact_submissions ORDER BY created_at DESC");
+    const data = result.rows as unknown as ContactSubmission[];
     const filtered =
       spamFilter === "spam"
-        ? data.filter((s) => s.isSpam)
+        ? data.filter((s) => s.is_spam === 1)
         : spamFilter === "ham"
-        ? data.filter((s) => !s.isSpam)
+        ? data.filter((s) => s.is_spam === 0)
         : data;
     return { data: filtered, total: data.length, error: null };
   } catch {
@@ -57,14 +56,14 @@ export default async function SubmissionsPage({
           </thead>
           <tbody className="divide-y divide-gray-100">
             {data.map((s) => (
-              <tr key={s.id} className={`hover:bg-gray-50 ${s.isSpam ? "opacity-60" : ""}`}>
+              <tr key={s.id} className={`hover:bg-gray-50 ${s.is_spam ? "opacity-60" : ""}`}>
                 <td className="px-4 py-3 font-medium text-gray-900">{s.name ?? "—"}</td>
                 <td className="px-4 py-3 text-gray-600">{s.email ?? "—"}</td>
                 <td className="px-4 py-3 text-gray-500">
-                  {s.createdAt ? new Date(s.createdAt).toLocaleDateString() : "—"}
+                  {s.created_at ? new Date(s.created_at * 1000).toLocaleDateString() : "—"}
                 </td>
                 <td className="px-4 py-3">
-                  {s.isSpam ? (
+                  {s.is_spam ? (
                     <span className="inline-flex px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-red-700">Spam</span>
                   ) : (
                     <span className="inline-flex px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-700">OK</span>
@@ -73,9 +72,9 @@ export default async function SubmissionsPage({
                 <td className="px-4 py-3">
                   <div className="flex gap-2 justify-end">
                     <Link href={`/admin/submissions/${s.id}`} className="text-indigo-600 hover:underline">View</Link>
-                    <form action={markSpam.bind(null, s.id, !s.isSpam)}>
+                    <form action={markSpam.bind(null, s.id, !s.is_spam)}>
                       <button type="submit" className="text-gray-600 hover:underline">
-                        {s.isSpam ? "Not Spam" : "Mark Spam"}
+                        {s.is_spam ? "Not Spam" : "Mark Spam"}
                       </button>
                     </form>
                     <form action={deleteSubmission.bind(null, s.id)}

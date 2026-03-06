@@ -1,14 +1,11 @@
 import { NextResponse } from "next/server";
 import { db } from "@/db";
-import { contactSubmissions } from "@/db/schema";
-import { desc } from "drizzle-orm";
+import type { ContactSubmission } from "@/db/types";
 
 export async function GET() {
   try {
-    const data = await db
-      .select()
-      .from(contactSubmissions)
-      .orderBy(desc(contactSubmissions.createdAt));
+    const result = await db.execute("SELECT * FROM contact_submissions ORDER BY created_at DESC");
+    const data = result.rows as unknown as ContactSubmission[];
 
     const headers = ["id", "name", "email", "phone", "comment", "ip_hash", "is_spam", "created_at"];
 
@@ -19,9 +16,9 @@ export async function GET() {
         csvEscape(s.email),
         csvEscape(s.phone),
         csvEscape(s.comment),
-        csvEscape(s.ipHash), // only ip_hash, never raw IP
-        s.isSpam ? "true" : "false",
-        s.createdAt?.toISOString() ?? "",
+        csvEscape(s.ip_hash), // only ip_hash, never raw IP
+        s.is_spam === 1 ? "true" : "false",
+        s.created_at ? new Date(s.created_at * 1000).toISOString() : "",
       ].join(",")
     );
 

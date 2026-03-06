@@ -1,6 +1,5 @@
 import { db } from "@/db";
-import { pages } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import type { Page } from "@/db/types";
 import { notFound } from "next/navigation";
 import PageForm from "../PageForm";
 import { updatePage } from "../actions";
@@ -14,10 +13,13 @@ export default async function EditPagePage({
   const pageId = Number(id);
   if (isNaN(pageId)) notFound();
 
-  let page = null;
+  let page: Page | null = null;
   try {
-    const rows = await db.select().from(pages).where(eq(pages.id, pageId)).limit(1);
-    page = rows[0] ?? null;
+    const result = await db.execute({
+      sql: "SELECT * FROM pages WHERE id = ? LIMIT 1",
+      args: [pageId],
+    });
+    page = result.rows[0] ? (result.rows[0] as unknown as Page) : null;
   } catch {
     // DB not available
   }

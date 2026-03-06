@@ -4,8 +4,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 - **Framework**: Next.js 16 (App Router)
 - **Language**: TypeScript
-- **Database**: SQLite (Turso)
-- **ORM**: Drizzle ORM
+- **Database**: SQLite (Turso) with raw SQL
 - **Styling**: Tailwind CSS 4
 - **Storage**: Vercel Blob (for media uploads)
 - **Authentication**: JWT sessions with hardcoded admin password
@@ -24,17 +23,10 @@ Create a `.env.local` file in the root directory (see [Environment Variables](#e
 
 ### 3. Set Up Database
 
-Generate and apply database migrations:
+Run the database migration to create tables:
 
 ```bash
-# Generate migration files from schema
-npm run db:generate
-
-# Apply migrations to database
 npm run db:migrate
-
-# Or push schema directly without migrations
-npm run db:push
 ```
 
 ### 4. Run Development Server
@@ -79,36 +71,34 @@ BLOB_READ_WRITE_TOKEN=vercel_blob_rw_...
 
 ## Database
 
-This project uses **Drizzle ORM** with **Turso** (SQLite edge database).
+This project uses **Turso** (SQLite edge database) with **raw SQL** queries.
 
 ### Schema
 
-The database schema is defined in `db/schema.ts` and includes:
+The database schema is defined in `db/schema.sql` and includes:
 - **site_settings** — Site configuration (nav, social links, SEO defaults, HTML injection)
 - **posts** — Blog posts (news and comic submissions)
 - **pages** — Static content pages
 - **contact_submissions** — Contact form submissions
 - **redirects** — URL redirect rules
 
-### Drizzle Commands
+### Database Files
 
-```bash
-# Generate migration files from schema changes
-npm run db:generate
-
-# Apply pending migrations to database
-npm run db:migrate
-
-# Push schema directly to database (no migration files)
-npm run db:push
+```
+db/
+├── schema.sql          # SQL schema definition
+├── migrate.js          # Migration script
+├── index.ts            # Turso client connection
+├── types.ts            # TypeScript type definitions
+└── queries.ts          # Query helper functions
 ```
 
-### Database Configuration
+### Running Migrations
 
-Drizzle configuration is in `drizzle.config.ts`:
-- Schema: `./db/schema.ts`
-- Migrations: `./db/migrations`
-- Dialect: Turso (SQLite)
+```bash
+# Apply schema to database
+npm run db:migrate
+```
 
 ### Setting Up Turso
 
@@ -141,10 +131,12 @@ The admin includes:
 │   ├── blogs/             # Public blog pages
 │   └── pages/             # Public static pages
 ├── components/            # React components
-├── db/                    # Database schema and client
-│   ├── schema.ts         # Drizzle schema definitions
+├── db/                    # Database
+│   ├── schema.sql        # SQL schema
+│   ├── migrate.js        # Migration script
 │   ├── index.ts          # Database client
-│   └── migrations/       # Database migrations
+│   ├── types.ts          # TypeScript types
+│   └── queries.ts        # Query helpers
 ├── lib/                   # Utility functions
 │   ├── auth.ts           # JWT authentication helpers
 │   └── password.ts       # Password verification
@@ -154,9 +146,10 @@ The admin includes:
 ## Development Notes
 
 - Admin password is currently hardcoded in `lib/password.ts` — see [TODO.md](TODO.md) for planned security improvements
-- Database changes should be made in `db/schema.ts`, then run `npm run db:generate` to create migrations
+- Database schema changes should be made in `db/schema.sql`, then run `npm run db:migrate`
 - All admin routes are protected by JWT session authentication
 - Media uploads are stored in Vercel Blob, not the local filesystem
+- Database queries use raw SQL with type-safe helpers in `db/queries.ts`
 
 ## Learn More
 

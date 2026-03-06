@@ -1,12 +1,12 @@
 import Link from "next/link";
 import { db } from "@/db";
-import { pages } from "@/db/schema";
-import { desc } from "drizzle-orm";
+import type { Page } from "@/db/types";
 import { deletePage } from "./actions";
 
 async function getPages() {
   try {
-    return { data: await db.select().from(pages).orderBy(desc(pages.createdAt)), error: null };
+    const result = await db.execute("SELECT * FROM pages ORDER BY created_at DESC");
+    return { data: result.rows as unknown as Page[], error: null };
   } catch {
     return { data: [], error: "Database not connected." };
   }
