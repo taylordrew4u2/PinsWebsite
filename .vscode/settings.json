@@ -1,0 +1,8 @@
+{
+  "files.associations": {
+    "db/schema.sql": "sql"
+  },
+  "[sql]": {
+    "editor.defaultFormatter": "ms-ossdata.vscode-postgresql"
+  }
+}
