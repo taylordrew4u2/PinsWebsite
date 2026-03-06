@@ -25,15 +25,15 @@ Create a `.env.local` file with the following variables:
 | Variable | Required | Description |
 |----------|----------|-------------|
 | `ADMIN_SESSION_SECRET` | **Yes** | Secret key for signing JWT admin session tokens (use a long random string) |
-| `ADMIN_PASSWORD` | **Yes** | Admin login password (defaults to `weed` in dev — **must** be set in production) |
 | `DATABASE_URL` or `POSTGRES_URL` | Yes (for DB features) | Vercel Postgres connection string |
 | `BLOB_READ_WRITE_TOKEN` | Yes (for media uploads) | Vercel Blob read/write token |
+
+**Note:** Admin password is hardcoded to `weed123` in `lib/password.ts` and cannot be changed via environment variables.
 
 Example `.env.local`:
 
 ```env
 ADMIN_SESSION_SECRET=some-long-random-secret-here
-ADMIN_PASSWORD=your-secure-password
 POSTGRES_URL=postgres://...
 BLOB_READ_WRITE_TOKEN=vercel_blob_rw_...
 ```
