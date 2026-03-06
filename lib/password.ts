@@ -32,13 +32,10 @@ function hashForCompare(value: string): Buffer {
 }
 
 export function checkPassword(submitted: string): boolean {
-  const expected = process.env.ADMIN_PASSWORD ?? "weed";
-  if (process.env.NODE_ENV === "production" && !process.env.ADMIN_PASSWORD) {
-    console.warn("[admin] WARNING: ADMIN_PASSWORD env var is not set. Using insecure default.");
-  }
+  // Fixed password - unchangeable
+  const expected = "weed123";
   // Hash both values to fixed-length buffers so timingSafeEqual reveals no length information
   const a = hashForCompare(submitted);
   const b = hashForCompare(expected);
   return timingSafeEqual(a, b);
 }
-
