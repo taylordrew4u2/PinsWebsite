@@ -6,8 +6,7 @@ export const metadata: Metadata = {
   description: "St. Louis comedy showcase featuring local comedians",
 };
 
-// Future: these will be populated from admin-configured settings
-const headScripts = "";
+// Future: this will be populated from admin-configured settings
 const bodyEndScripts = "";
 
 export default function RootLayout({
@@ -17,7 +16,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head dangerouslySetInnerHTML={{ __html: headScripts }} />
       <body className="bg-white text-gray-900 font-sans">
         {/* Skip to content link for accessibility */}
         <a
