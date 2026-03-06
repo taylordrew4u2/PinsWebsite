@@ -1,8 +1,6 @@
 "use server";
 
 import { db } from "@/db";
-import { redirects } from "@/db/schema";
-import { eq } from "drizzle-orm";
 import { z } from "zod";
 import { revalidatePath } from "next/cache";
 
@@ -21,9 +19,14 @@ export async function createRedirect(
 ): Promise<RedirectFormState> {
   const raw = Object.fromEntries([...formData.entries()].map(([k, v]) => [k, v.toString()]));
   const parsed = RedirectSchema.safeParse(raw);
-  if (!parsed.success) return { ok: false, error: parsed.error.issues.map((i) => i.message).join(", ") };
+  if (!parsed.success)
+    return { ok: false, error: parsed.error.issues.map((i) => i.message).join(", ") };
   try {
-    await db.insert(redirects).values(parsed.data);
+    const d = parsed.data;
+    await db.execute(
+      `INSERT INTO redirects (from_path, to_path, status_code, enabled) VALUES (?1, ?2, ?3, ?4)`,
+      [d.fromPath, d.toPath, d.statusCode, d.enabled ? 1 : 0]
+    );
     revalidatePath("/admin/redirects");
     return { ok: true };
   } catch (e) {
@@ -39,9 +42,14 @@ export async function updateRedirect(
 ): Promise<RedirectFormState> {
   const raw = Object.fromEntries([...formData.entries()].map(([k, v]) => [k, v.toString()]));
   const parsed = RedirectSchema.safeParse(raw);
-  if (!parsed.success) return { ok: false, error: parsed.error.issues.map((i) => i.message).join(", ") };
+  if (!parsed.success)
+    return { ok: false, error: parsed.error.issues.map((i) => i.message).join(", ") };
   try {
-    await db.update(redirects).set(parsed.data).where(eq(redirects.id, id));
+    const d = parsed.data;
+    await db.execute(
+      `UPDATE redirects SET from_path = ?1, to_path = ?2, status_code = ?3, enabled = ?4 WHERE id = ?5`,
+      [d.fromPath, d.toPath, d.statusCode, d.enabled ? 1 : 0, id]
+    );
     revalidatePath("/admin/redirects");
     return { ok: true };
   } catch (e) {
@@ -51,11 +59,11 @@ export async function updateRedirect(
 }
 
 export async function deleteRedirect(id: number) {
-  await db.delete(redirects).where(eq(redirects.id, id));
+  await db.execute("DELETE FROM redirects WHERE id = ?1", [id]);
   revalidatePath("/admin/redirects");
 }
 
 export async function toggleRedirect(id: number, enabled: boolean) {
-  await db.update(redirects).set({ enabled }).where(eq(redirects.id, id));
+  await db.execute("UPDATE redirects SET enabled = ?1 WHERE id = ?2", [enabled ? 1 : 0, id]);
   revalidatePath("/admin/redirects");
 }

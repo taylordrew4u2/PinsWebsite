@@ -1,18 +1,19 @@
 "use server";
 
 import { db } from "@/db";
-import { contactSubmissions } from "@/db/schema";
-import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 export async function markSpam(id: number, isSpam: boolean) {
-  await db.update(contactSubmissions).set({ isSpam }).where(eq(contactSubmissions.id, id));
+  await db.execute("UPDATE contact_submissions SET is_spam = ?1 WHERE id = ?2", [
+    isSpam ? 1 : 0,
+    id,
+  ]);
   revalidatePath("/admin/submissions");
 }
 
 export async function deleteSubmission(id: number) {
-  await db.delete(contactSubmissions).where(eq(contactSubmissions.id, id));
+  await db.execute("DELETE FROM contact_submissions WHERE id = ?1", [id]);
   revalidatePath("/admin/submissions");
   redirect("/admin/submissions");
 }
