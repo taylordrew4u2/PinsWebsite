@@ -22,6 +22,7 @@ async function getStats() {
 }
 
 const sections = [
+  { href: "/admin/homepage", label: "Homepage", description: "Edit homepage content and layout" },
   { href: "/admin/settings", label: "Settings", description: "Site name, nav, social links, SEO" },
   { href: "/admin/posts", label: "News Posts", description: "Create and manage news articles" },
   { href: "/admin/posts/comic-submission", label: "Comic Submission Posts", description: "Manage comic submission posts" },
