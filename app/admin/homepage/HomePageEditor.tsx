@@ -24,6 +24,45 @@ export default function HomePageEditor({ settings }: { settings: SiteSettings | 
       )}
 
       <div className="bg-white border border-gray-200 rounded-lg p-6">
+        <h2 className="text-lg font-semibold text-gray-900 mb-4">Homepage Links</h2>
+
+        <div className="grid gap-4 sm:grid-cols-2 mb-6">
+          <div>
+            <label
+              htmlFor="primaryTicketLink"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
+              Primary Ticket Link
+            </label>
+            <input
+              id="primaryTicketLink"
+              name="primaryTicketLink"
+              type="url"
+              defaultValue={settings?.primary_ticket_link ?? ""}
+              placeholder="https://partiful.com/..."
+              className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-red-500 focus:outline-none"
+            />
+          </div>
+
+          <div>
+            <label
+              htmlFor="fundraisingLink"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
+              Fundraising Link
+            </label>
+            <input
+              id="fundraisingLink"
+              name="fundraisingLink"
+              type="url"
+              defaultValue={settings?.fundraising_link ?? ""}
+              placeholder="https://www.gofundme.com/..."
+              className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-red-500 focus:outline-none"
+            />
+          </div>
+        </div>
+
+        <h2 className="text-lg font-semibold text-gray-900 mb-2">Homepage Main Content</h2>
         <div className="mb-4">
           <label className="block text-sm font-semibold text-gray-900 mb-2">
             Homepage Content (Markdown)
@@ -49,6 +88,15 @@ Write about your comedy shows using **markdown** formatting.
 - Add [links](https://example.com)
 - Include images: ![alt text](url)"
         />
+
+        <label className="mt-4 inline-flex items-center gap-2 text-sm text-gray-700">
+          <input
+            type="checkbox"
+            name="useDefaultTemplate"
+            className="rounded border-gray-300 text-red-600 focus:ring-red-500"
+          />
+          Use default homepage template (ignore custom markdown)
+        </label>
       </div>
 
       <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 text-sm text-blue-900">

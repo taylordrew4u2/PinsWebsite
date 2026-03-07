@@ -18,7 +18,8 @@ export default async function HomePageEditorPage() {
       <div className="mb-6">
         <h1 className="text-2xl font-bold text-gray-900 mb-2">Edit Homepage</h1>
         <p className="text-gray-600 text-sm">
-          Customize the content displayed on your homepage. Leave blank to show the default template.
+          Manage your homepage CTA links and main markdown content. Leave markdown blank to use the
+          default homepage template.
         </p>
       </div>
       
