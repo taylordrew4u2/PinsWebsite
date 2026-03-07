@@ -13,7 +13,7 @@ export default function MediaUploadForm() {
       {state.ok && state.url && (
         <div className="bg-green-50 border border-green-200 text-green-800 rounded px-3 py-2 text-sm">
           ✓ Uploaded:{" "}
-          <a href={state.url} target="_blank" rel="noopener noreferrer" className="underline break-all">
+          <a href={state.url} className="underline break-all">
             {state.url}
           </a>
         </div>

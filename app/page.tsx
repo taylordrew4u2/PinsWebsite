@@ -44,8 +44,6 @@ export default async function HomePage() {
         <div className="mb-8">
           <a
             href={settings?.primary_ticket_link || "https://partiful.com"}
-            target="_blank"
-            rel="noopener noreferrer"
             className="inline-block bg-red-600 text-white text-lg font-semibold px-8 py-4 rounded-lg hover:bg-red-700 transition"
           >
             Get Tickets / RSVP
@@ -81,8 +79,6 @@ export default async function HomePage() {
       <div className="mt-12 text-center">
         <a
           href={settings?.fundraising_link || "https://www.gofundme.com"}
-          target="_blank"
-          rel="noopener noreferrer"
           className="text-red-600 hover:underline text-lg font-semibold"
         >
           Support our Fringe show fundraiser →

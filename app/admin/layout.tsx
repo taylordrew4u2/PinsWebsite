@@ -78,7 +78,6 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         <div className="px-3 py-3 border-t border-gray-700 space-y-2">
           <Link
             href="/"
-            target="_blank"
             className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-700/70 transition"
           >
             <span className="text-base">🌐</span>

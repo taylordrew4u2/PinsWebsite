@@ -47,8 +47,6 @@ export default function AboutUsPage() {
             Follow us on{" "}
             <a
               href="https://www.instagram.com/pinsandneedlescomedy"
-              target="_blank"
-              rel="noopener noreferrer"
               className="text-red-600 hover:underline"
             >
               Instagram
@@ -58,8 +56,6 @@ export default function AboutUsPage() {
           <li>
             <a
               href="https://www.gofundme.com"
-              target="_blank"
-              rel="noopener noreferrer"
               className="text-red-600 hover:underline"
             >
               Support our Fringe show

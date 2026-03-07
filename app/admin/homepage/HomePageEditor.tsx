@@ -115,8 +115,6 @@ Write about your comedy shows using **markdown** formatting.
         
         <a
           href="/"
-          target="_blank"
-          rel="noopener noreferrer"
           className="bg-gray-100 text-gray-700 px-6 py-2.5 rounded-lg font-semibold hover:bg-gray-200 transition border border-gray-300"
         >
           Preview Live Site →

@@ -37,8 +37,6 @@ export default function RootLayout({
               <div className="flex items-center space-x-6">
                 <a
                   href="https://www.instagram.com/pinsandneedlescomedy"
-                  target="_blank"
-                  rel="noopener noreferrer"
                   className="text-gray-700 hover:text-gray-900"
                 >
                   Instagram
@@ -57,8 +55,6 @@ export default function RootLayout({
                 </a>
                 <a
                   href="https://www.gofundme.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
                   className="bg-black text-white px-4 py-2 rounded hover:bg-gray-800"
                 >
                   HELP FUND FRINGE

@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { db } from "@/db";
+import AdminSectionsChecklist from "./AdminSectionsChecklist";
 
 async function getStats() {
   try {
@@ -61,21 +61,7 @@ export default async function AdminDashboard() {
         ))}
       </div>
 
-      {/* Sections */}
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {sections.map((s) => (
-          <Link
-            key={s.href}
-            href={s.href}
-            className="bg-white rounded-lg shadow p-5 hover:shadow-md transition group"
-          >
-            <div className="font-semibold text-gray-900 group-hover:text-red-600 transition mb-1">
-              {s.label}
-            </div>
-            <div className="text-sm text-gray-500">{s.description}</div>
-          </Link>
-        ))}
-      </div>
+      <AdminSectionsChecklist sections={sections} />
     </div>
   );
 }
