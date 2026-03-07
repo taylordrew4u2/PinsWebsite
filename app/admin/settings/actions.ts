@@ -67,6 +67,7 @@ export async function saveSettings(
       ...(navItems !== undefined ? { nav_items: JSON.stringify(navItems) } : {}),
     });
     revalidatePath("/admin/settings");
+    revalidatePath("/"); // Revalidate home page to show updated content
     return { ok: true };
   } catch (e) {
     console.error("[admin] saveSettings error", e);
