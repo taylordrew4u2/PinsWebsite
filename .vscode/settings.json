@@ -1,8 +1,6 @@
 {
   "files.associations": {
-    "db/schema.sql": "sql"
+    "db/*.sql": "sqlite"
   },
-  "[sql]": {
-    "editor.defaultFormatter": "ms-ossdata.vscode-postgresql"
-  }
+  "mssql.intelliSense.enableIntelliSense": false
 }
