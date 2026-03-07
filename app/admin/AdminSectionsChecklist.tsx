@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 
 type Section = {
@@ -18,11 +17,13 @@ const STORAGE_KEY = "admin-dashboard-section-state-v1";
 type StoredState = {
   completedByHref: Record<string, boolean>;
   expandedByHref: Record<string, boolean>;
+  notesByHref: Record<string, string>;
 };
 
 const defaultState: StoredState = {
   completedByHref: {},
   expandedByHref: {},
+  notesByHref: {},
 };
 
 export default function AdminSectionsChecklist({ sections }: Props) {
@@ -37,6 +38,7 @@ export default function AdminSectionsChecklist({ sections }: Props) {
       setState({
         completedByHref: parsed.completedByHref ?? {},
         expandedByHref: parsed.expandedByHref ?? {},
+        notesByHref: parsed.notesByHref ?? {},
       });
     } catch {
       setState(defaultState);
@@ -75,6 +77,16 @@ export default function AdminSectionsChecklist({ sections }: Props) {
     }));
   }
 
+  function updateNotes(href: string, notes: string) {
+    setState((prev) => ({
+      ...prev,
+      notesByHref: {
+        ...prev.notesByHref,
+        [href]: notes,
+      },
+    }));
+  }
+
   return (
     <section className="space-y-4">
       <div className="flex items-center justify-between">
@@ -88,6 +100,7 @@ export default function AdminSectionsChecklist({ sections }: Props) {
         {sections.map((section) => {
           const isExpanded = !!state.expandedByHref[section.href];
           const isCompleted = !!state.completedByHref[section.href];
+          const notes = state.notesByHref[section.href] ?? "";
           const panelId = `section-panel-${section.href.replace(/[^a-zA-Z0-9_-]/g, "-")}`;
 
           return (
@@ -137,12 +150,17 @@ export default function AdminSectionsChecklist({ sections }: Props) {
                   className="border-t border-gray-100 px-4 py-3 text-sm text-gray-700"
                 >
                   <p className="mb-3">{section.description}</p>
-                  <Link
-                    href={section.href}
-                    className="inline-block rounded-md bg-red-600 px-3 py-1.5 text-sm font-semibold text-white hover:bg-red-700"
-                  >
-                    Open section
-                  </Link>
+                  <label htmlFor={`notes-${panelId}`} className="mb-1 block text-xs font-semibold text-gray-600">
+                    Details / Notes (editable on this page)
+                  </label>
+                  <textarea
+                    id={`notes-${panelId}`}
+                    value={notes}
+                    onChange={(e) => updateNotes(section.href, e.target.value)}
+                    rows={4}
+                    placeholder="Add your info here..."
+                    className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-red-500"
+                  />
                 </div>
               )}
             </div>
