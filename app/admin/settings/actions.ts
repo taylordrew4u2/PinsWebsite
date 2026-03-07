@@ -1,6 +1,6 @@
 "use server";
 
-import { getSiteSettings, upsertSiteSettings } from "@/db/queries";
+import { upsertSiteSettings } from "@/db/queries";
 import { z } from "zod";
 import { revalidatePath } from "next/cache";
 
@@ -51,20 +51,6 @@ export async function saveSettings(
       return { ok: false, error: "Invalid nav items JSON." };
     }
   }
-
-  const values = {
-    siteName: d.siteName,
-    defaultMetaDescription: d.defaultMetaDescription,
-    defaultOgImageUrl: d.defaultOgImageUrl || null,
-    primaryTicketLink: d.primaryTicketLink || null,
-    fundraisingLink: d.fundraisingLink || null,
-    headInjectHtml: d.headInjectHtml,
-    bodyEndInjectHtml: d.bodyEndInjectHtml,
-    homeBodyMarkdown: d.homeBodyMarkdown,
-    aboutCanonicalPath: d.aboutCanonicalPath || null,
-    socialLinks: d.instagramUrl ? { instagram: d.instagramUrl } : {},
-    ...(navItems !== undefined ? { navItems } : {}),
-  };
 
   try {
     await upsertSiteSettings({

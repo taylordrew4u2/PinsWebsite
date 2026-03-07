@@ -1,6 +1,7 @@
 "use server";
 
 import { db } from "@/db";
+import type { Post } from "@/db/types";
 import { z } from "zod";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
@@ -129,7 +130,7 @@ export async function duplicatePost(id: number, blogSlug: string) {
 
   if (!result.rows[0]) return;
 
-  const original = result.rows[0] as any;
+  const original = result.rows[0] as Post;
 
   await db.execute(
     `INSERT INTO posts (blog_slug, slug, title, excerpt, body_markdown, featured_image_url, seo_title, meta_description, status, published_at)

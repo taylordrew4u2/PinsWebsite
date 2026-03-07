@@ -3,7 +3,7 @@ import { db } from "./index";
 import type { SiteSettings, Post, Page, ContactSubmission, Redirect } from "./types";
 
 // Helper to convert rows to typed objects
-function parseRow<T>(row: any): T {
+function parseRow<T>(row: Record<string, unknown>): T {
   return row as T;
 }
 
@@ -18,7 +18,7 @@ export async function upsertSiteSettings(data: Partial<Omit<SiteSettings, "id">>
 
   if (existing) {
     const updates: string[] = [];
-    const values: any[] = [];
+    const values: unknown[] = [];
     let paramIndex = 1;
 
     Object.entries(data).forEach(([key, value]) => {
@@ -48,7 +48,7 @@ export async function upsertSiteSettings(data: Partial<Omit<SiteSettings, "id">>
 // Posts
 export async function getAllPosts(blogSlug?: string): Promise<Post[]> {
   let query = "SELECT * FROM posts";
-  const params: any[] = [];
+  const params: unknown[] = [];
 
   if (blogSlug) {
     query += " WHERE blog_slug = ?1";
@@ -63,7 +63,7 @@ export async function getAllPosts(blogSlug?: string): Promise<Post[]> {
 
 export async function getPostById(id: number, blogSlug?: string): Promise<Post | null> {
   let query = "SELECT * FROM posts WHERE id = ?1";
-  const params: any[] = [id];
+  const params: unknown[] = [id];
 
   if (blogSlug) {
     query += " AND blog_slug = ?2";
@@ -89,7 +89,7 @@ export async function updatePost(
   data: Partial<Omit<Post, "id" | "created_at" | "updated_at">>
 ): Promise<void> {
   const updates: string[] = [];
-  const values: any[] = [];
+  const values: unknown[] = [];
   let paramIndex = 1;
 
   Object.entries(data).forEach(([key, value]) => {
@@ -111,7 +111,7 @@ export async function deletePost(id: number): Promise<void> {
 
 export async function getPostsCount(blogSlug?: string): Promise<number> {
   let query = "SELECT COUNT(*) as count FROM posts";
-  const params: any[] = [];
+  const params: unknown[] = [];
 
   if (blogSlug) {
     query += " WHERE blog_slug = ?1";
@@ -119,7 +119,7 @@ export async function getPostsCount(blogSlug?: string): Promise<number> {
   }
 
   const result = await db.execute(query, params);
-  return (result.rows[0] as any).count || 0;
+  return Number(result.rows[0]?.count ?? 0);
 }
 
 // Pages
@@ -153,7 +153,7 @@ export async function updatePage(
   data: Partial<Omit<Page, "id" | "created_at" | "updated_at">>
 ): Promise<void> {
   const updates: string[] = [];
-  const values: any[] = [];
+  const values: unknown[] = [];
   let paramIndex = 1;
 
   Object.entries(data).forEach(([key, value]) => {
@@ -202,7 +202,7 @@ export async function updateContactSubmission(
   data: Partial<Omit<ContactSubmission, "id" | "created_at">>
 ): Promise<void> {
   const updates: string[] = [];
-  const values: any[] = [];
+  const values: unknown[] = [];
   let paramIndex = 1;
 
   Object.entries(data).forEach(([key, value]) => {
@@ -224,7 +224,7 @@ export async function deleteContactSubmission(id: number): Promise<void> {
 
 export async function getContactSubmissionsCount(): Promise<number> {
   const result = await db.execute("SELECT COUNT(*) as count FROM contact_submissions");
-  return (result.rows[0] as any).count || 0;
+  return Number(result.rows[0]?.count ?? 0);
 }
 
 // Redirects
@@ -251,7 +251,7 @@ export async function updateRedirect(
   data: Partial<Omit<Redirect, "id" | "created_at">>
 ): Promise<void> {
   const updates: string[] = [];
-  const values: any[] = [];
+  const values: unknown[] = [];
   let paramIndex = 1;
 
   Object.entries(data).forEach(([key, value]) => {

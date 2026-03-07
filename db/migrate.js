@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* eslint-disable @typescript-eslint/no-require-imports */
 // Database migration script - runs schema.sql against Turso database
 
 // Load environment variables from .env.local

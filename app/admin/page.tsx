@@ -10,10 +10,10 @@ async function getStats() {
       db.execute("SELECT COUNT(*) as count FROM redirects"),
     ]);
     return {
-      postsCount: (postsResult.rows[0] as any)?.count ?? 0,
-      pagesCount: (pagesResult.rows[0] as any)?.count ?? 0,
-      submissionsCount: (submissionsResult.rows[0] as any)?.count ?? 0,
-      redirectsCount: (redirectsResult.rows[0] as any)?.count ?? 0,
+      postsCount: Number(postsResult.rows[0]?.count ?? 0),
+      pagesCount: Number(pagesResult.rows[0]?.count ?? 0),
+      submissionsCount: Number(submissionsResult.rows[0]?.count ?? 0),
+      redirectsCount: Number(redirectsResult.rows[0]?.count ?? 0),
       error: null,
     };
   } catch {
