@@ -130,7 +130,7 @@ export async function duplicatePost(id: number, blogSlug: string) {
 
   if (!result.rows[0]) return;
 
-  const original = result.rows[0] as Post;
+  const original = result.rows[0] as unknown as Post;
 
   await db.execute(
     `INSERT INTO posts (blog_slug, slug, title, excerpt, body_markdown, featured_image_url, seo_title, meta_description, status, published_at)

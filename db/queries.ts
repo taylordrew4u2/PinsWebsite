@@ -1,5 +1,6 @@
 // Database Query Helpers
 import { db } from "./index";
+import type { InValue } from "@libsql/client";
 import type { SiteSettings, Post, Page, ContactSubmission, Redirect } from "./types";
 
 // Helper to convert rows to typed objects
@@ -18,12 +19,12 @@ export async function upsertSiteSettings(data: Partial<Omit<SiteSettings, "id">>
 
   if (existing) {
     const updates: string[] = [];
-    const values: unknown[] = [];
+    const values: InValue[] = [];
     let paramIndex = 1;
 
     Object.entries(data).forEach(([key, value]) => {
       updates.push(`${key} = ?${paramIndex++}`);
-      values.push(value);
+      values.push(value as InValue);
     });
 
     if (updates.length > 0) {
@@ -48,7 +49,7 @@ export async function upsertSiteSettings(data: Partial<Omit<SiteSettings, "id">>
 // Posts
 export async function getAllPosts(blogSlug?: string): Promise<Post[]> {
   let query = "SELECT * FROM posts";
-  const params: unknown[] = [];
+  const params: InValue[] = [];
 
   if (blogSlug) {
     query += " WHERE blog_slug = ?1";
@@ -63,7 +64,7 @@ export async function getAllPosts(blogSlug?: string): Promise<Post[]> {
 
 export async function getPostById(id: number, blogSlug?: string): Promise<Post | null> {
   let query = "SELECT * FROM posts WHERE id = ?1";
-  const params: unknown[] = [id];
+  const params: InValue[] = [id];
 
   if (blogSlug) {
     query += " AND blog_slug = ?2";
@@ -89,12 +90,12 @@ export async function updatePost(
   data: Partial<Omit<Post, "id" | "created_at" | "updated_at">>
 ): Promise<void> {
   const updates: string[] = [];
-  const values: unknown[] = [];
+  const values: InValue[] = [];
   let paramIndex = 1;
 
   Object.entries(data).forEach(([key, value]) => {
     updates.push(`${key} = ?${paramIndex++}`);
-    values.push(value);
+    values.push(value as InValue);
   });
 
   updates.push(`updated_at = ?${paramIndex++}`);
@@ -111,7 +112,7 @@ export async function deletePost(id: number): Promise<void> {
 
 export async function getPostsCount(blogSlug?: string): Promise<number> {
   let query = "SELECT COUNT(*) as count FROM posts";
-  const params: unknown[] = [];
+  const params: InValue[] = [];
 
   if (blogSlug) {
     query += " WHERE blog_slug = ?1";
@@ -153,12 +154,12 @@ export async function updatePage(
   data: Partial<Omit<Page, "id" | "created_at" | "updated_at">>
 ): Promise<void> {
   const updates: string[] = [];
-  const values: unknown[] = [];
+  const values: InValue[] = [];
   let paramIndex = 1;
 
   Object.entries(data).forEach(([key, value]) => {
     updates.push(`${key} = ?${paramIndex++}`);
-    values.push(value);
+    values.push(value as InValue);
   });
 
   updates.push(`updated_at = ?${paramIndex++}`);
@@ -202,12 +203,12 @@ export async function updateContactSubmission(
   data: Partial<Omit<ContactSubmission, "id" | "created_at">>
 ): Promise<void> {
   const updates: string[] = [];
-  const values: unknown[] = [];
+  const values: InValue[] = [];
   let paramIndex = 1;
 
   Object.entries(data).forEach(([key, value]) => {
     updates.push(`${key} = ?${paramIndex++}`);
-    values.push(value);
+    values.push(value as InValue);
   });
 
   values.push(id);
@@ -251,12 +252,12 @@ export async function updateRedirect(
   data: Partial<Omit<Redirect, "id" | "created_at">>
 ): Promise<void> {
   const updates: string[] = [];
-  const values: unknown[] = [];
+  const values: InValue[] = [];
   let paramIndex = 1;
 
   Object.entries(data).forEach(([key, value]) => {
     updates.push(`${key} = ?${paramIndex++}`);
-    values.push(value);
+    values.push(value as InValue);
   });
 
   values.push(id);
