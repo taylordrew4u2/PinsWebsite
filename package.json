@@ -13,7 +13,7 @@
     "@libsql/client": "^0.17.0",
     "@vercel/blob": "^2.3.1",
     "jose": "^6.2.0",
-    "next": "16.1.6",
+    "next": "16.1.7",
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "rehype-sanitize": "^6.0.0",
